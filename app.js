@@ -1,16 +1,22 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import mongoose from "mongoose";
 
-var users = require('./routes/users');
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import Promise from "bluebird";
+import users from "./routes/users";
 
-var app = express();
+const app = express();
+
+mongoose.Promise = Promise;
+
+mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api/v1/users', users);
+app.use("/api/v1/users", users);
 
 module.exports = app;
