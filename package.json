@@ -37,7 +37,8 @@
     "lodash": "^4.17.11",
     "mongoose": "^5.5.13",
     "mongoose-unique-validator": "^2.0.3",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "sprintf": "^0.1.5"
   },
   "devDependencies": {
     "@babel/node": "^7.4.5",

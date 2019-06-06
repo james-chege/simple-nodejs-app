@@ -17,5 +17,10 @@ export default {
         full_name: Joi.string().required()
       }
     }
+  },
+  update: {
+    username: Joi.string(),
+    full_name: Joi.string(),
+    email
   }
 };
