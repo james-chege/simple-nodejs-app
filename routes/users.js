@@ -47,12 +47,13 @@ router.get("/", async (req, res) => {
 router.post("/", [validate(validator.register)], (req, res) => {
   const { email, username, full_name } = req.body.user; //eslint-disable-line
   const user = new User({ email, username, full_name });
+  const message = sprintf(constants.SUCCESSFUL_REGISTRATION, "user");
   user
     .save()
     .then(userRecord => {
-      res.status(201).json({ user: userRecord.toAuthJSON() });
+      res.status(201).json({ message, user: userRecord.toAuthJSON() });
     })
-    .catch(err => res.status(400).json({ errors: parseErrors(err.errors) }));
+    .catch(err => res.status(422).json({ errors: parseErrors(err.errors) }));
 });
 
 // Edit user
