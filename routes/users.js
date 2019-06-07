@@ -5,19 +5,42 @@ import constants from "../constants/responseMessages";
 
 import validator from "../middlewares/validator";
 import User from "../models/User";
-import Photo from "../models/Photo";
 import parseErrors from "../utils/parseErrors";
 
 const router = express.Router();
 
 // GET usersfind({
-router.get("/", (req, res) => {
-  User.find({}, (err, users) => {
-    if (users) {
-      return res.json({ users });
-    }
-    return res.json({ err });
-  }).populate("pictures");
+router.get("/", async (req, res) => {
+  User.find({})
+    .populate("pictures")
+    .exec((err, users) => {
+      if (users) {
+        return res.json({ users });
+      }
+      return res.json({ err });
+    });
+  // alternate use of aggregate [little buggy]
+  // const users = await User.aggregate([
+  //   // { $unwind: "$photos" },
+  //   {
+  //     $lookup: {
+  //       from: "photos",
+  //       localField: "pictures",
+  //       foreignField: "_id",
+  //       as: "pics"
+  //     }
+  //   },
+  //   // { $unwind: "$pics" },
+  //   {
+  //     $project: {
+  //       email: "$email",
+  //       username: "$username",
+  //       fullName: "$full_name",
+  //       pics: "$pics"
+  //     }
+  //   }
+  // ]);
+  // return res.json({ users });
 });
 
 // CREATE user
