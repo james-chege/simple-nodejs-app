@@ -1,24 +1,23 @@
 import express from "express";
-import dotenv from "dotenv";
 import validate from "express-validation";
 import sprintf from "sprintf";
 import constants from "../constants/responseMessages";
 
 import validator from "../middlewares/validator";
 import User from "../models/User";
+import Photo from "../models/Photo";
 import parseErrors from "../utils/parseErrors";
 
-dotenv.config();
 const router = express.Router();
 
-// GET users
+// GET usersfind({
 router.get("/", (req, res) => {
-  User.find({}, (error, users) => {
+  User.find({}, (err, users) => {
     if (users) {
       return res.json({ users });
     }
-    return res.json({ error });
-  });
+    return res.json({ err });
+  }).populate("pictures");
 });
 
 // CREATE user
@@ -62,4 +61,4 @@ router.delete("/:id", (req, res) => {
   });
 });
 
-module.exports = router;
+export default router;

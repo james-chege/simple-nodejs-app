@@ -3,40 +3,38 @@ import uniqueValidator from "mongoose-unique-validator";
 
 const schema = new mongoose.Schema(
   {
-    email: {
+    url: {
       type: String,
       required: true,
       lowercase: true,
       index: true,
       unique: true
     },
-    username: {
+    title: {
       type: String,
       required: true,
       lowercase: true,
-      index: true,
-      unique: true
+      index: true
     },
-    full_name: {
+    uploader: {
       type: String,
       required: true,
-      index: true,
-      unique: false
+      lowercase: true,
+      index: true
     },
-    pictures: [{ type: mongoose.Schema.Types.ObjectId, ref: "Photo" }]
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
   },
   { timestamps: true }
 );
 
 schema.methods.toAuthJSON = function toAuthJSON() {
   return {
-    email: this.email,
-    username: this.username,
-    full_name: this.full_name,
-    pictures: this.pictures
+    url: this.url,
+    uploader: this.uploader,
+    title: this.title
   };
 };
 
-schema.plugin(uniqueValidator, { message: "This user already exists" });
+schema.plugin(uniqueValidator, { message: "This photo exists" });
 
-export default mongoose.model("User", schema);
+export default mongoose.model("Photo", schema);

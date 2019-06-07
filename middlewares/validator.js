@@ -18,6 +18,15 @@ export default {
       }
     }
   },
+  addPhoto: {
+    body: {
+      photo: {
+        url: Joi.string().required(),
+        title: Joi.string().required(),
+        uploader: Joi.string().required()
+      }
+    }
+  },
   update: {
     username: Joi.string(),
     full_name: Joi.string(),
